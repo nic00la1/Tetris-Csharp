@@ -11,6 +11,16 @@
             {
                 currentBlock = value;
                 currentBlock.Reset(); // Reset the block's position
+
+                for (int i = 0; i < 2; i++) // Move the block up two rows
+                {
+                    currentBlock.Move(1, 0);
+
+                    if (!BlockFits())
+                    {
+                        currentBlock.Move(-1, 0);
+                    }
+                }
             }
         }
 
