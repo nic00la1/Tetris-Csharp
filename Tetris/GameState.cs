@@ -28,12 +28,15 @@
         public BlockQueue BlockQueue { get; }
         public bool GameOver { get; private set; }
         public int Score { get; private set; }
+        public Block HeldBlock { get; private set; }
+        public bool CanHold { get; private set; }
 
         public GameState()
         {
             GameGrid = new GameGrid(22, 10); // 22 rows, 10 columns
             BlockQueue = new BlockQueue();
             CurrentBlock = BlockQueue.GetAndUpdate();
+            CanHold = true;
         }
 
         private bool BlockFits() // Checks if the block fits in the grid
@@ -47,6 +50,25 @@
             }
 
             return true;
+        }
+
+        public void HoldBlock()
+        {
+            if (!CanHold) return; // If the block can't be held, return
+
+            if (HeldBlock == null) // If there is no held block
+            {
+                HeldBlock = CurrentBlock;
+                CurrentBlock = BlockQueue.GetAndUpdate();
+            }
+            else
+            {
+                Block tmp = CurrentBlock;
+                CurrentBlock = HeldBlock;
+                CurrentBlock = tmp;
+            }
+
+            CanHold = false;
         }
 
         public void RotateBlockCW() // Rotates the block clockwise
@@ -110,6 +132,7 @@
             else
             {
                 CurrentBlock = BlockQueue.GetAndUpdate();
+                CanHold = true;
             }
         }
 
