@@ -63,7 +63,7 @@
             <TextBlock Text="Next"
                       TextAlignment="Center"/>
 
-            <Image x:Name="Next"
+            <Image x:Name="NextImage"
                    Margin="20"
                    Width="125"/>
         </StackPanel>
