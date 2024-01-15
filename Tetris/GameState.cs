@@ -146,5 +146,34 @@
                 PlaceBlock();
             }
         }
+
+        private int TileDropDistance(Position p) // Returns the distance the tile can drop
+        {
+            int drop = 0;
+
+            while (GameGrid.isEmpty(p.Row + drop + 1, p.Column))
+            {
+                drop++;
+            }
+            return drop;
+        }
+
+        public int BlockDropDistance() // Returns the distance the block can drop
+        {
+            int drop = GameGrid.Rows;
+
+            foreach (Position p in CurrentBlock.TilePositions())
+            {
+                drop = Math.Max(drop, TileDropDistance(p));
+            }
+
+            return drop;
+        }
+
+        public void DropBlock()
+        {
+            CurrentBlock.Move(BlockDropDistance(), 0);
+            PlaceBlock();
+        }
     }
 }
